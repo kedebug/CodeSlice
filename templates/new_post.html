@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}New post{% end %}
+
+{% block content %}
+<form action="{{ request.uri }}" method="post" accept-charset="utf-8">
+<p><label for="title">{{ form.title.label() }}</label>
+	{{ form.title() }}
+
+    {% if form.title.errors %}
+    <ul class="errors">
+    	{% for error in form.title.errors %}
+        <li>{{ error }}</li>
+        {% end %}
+    </ul>
+    {% end %}
+</p>
+<p><label for="content">{{ form.content.label() }}</label>
+	{{ form.content() }}
+    
+    {% if form.content.errors %}
+    <ul class="errors">
+    	{% for error in form.content.errors %}
+        <li>{{ error }}</li>
+        {% end %}
+    </ul>
+    {% end %}
+</p>
+<p><input type="submit" value="Save post"/></p>
+</form>
+{% end %}

@@ -13,3 +13,4 @@ class Form(forms.Form):
 class PostForm(Form):
     title = forms.TextField('Title', validators=[validators.Required()])
     content = forms.TextField('Content', validators=[validators.Required()])
+

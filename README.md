@@ -1,5 +1,3 @@
-gae-tornado-practice
+All exercise code on my way learning python.
 ====================
-
-Learning from
-- http://pedro.valelima.com/blog/2011/may/12/Flying-with-Tornado-on-AppEngine/
+JUST FOR FUN.

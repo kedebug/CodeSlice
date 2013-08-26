@@ -28,7 +28,7 @@ class ShoppingCart(object):
 
     def notify_callbacks(self):
         for callback in self.callbacks:
-            callback(get_inventory_count())
+            callback(self.get_inventory_count())
 
         self.callbacks[:] = []
         
@@ -43,11 +43,28 @@ class DetailHandler(tornado.web.RequestHandler):
 
 class CartHandler(tornado.web.RequestHandler):
     def post(self):
-        pass
+        session = self.get_argument('session')
+        action = self.get_argument('action')
+
+        if not session:
+            self.set_status(400)
+            return
+
+        if action == 'add':
+            self.application.shopping_cart.add_to_cart(session)
+        elif action == 'remove':
+            self.application.shopping_cart.remove_from_cart(session)
+        else:
+            self.set_status(400)
 
 class StatusHandler(tornado.web.RequestHandler):
+    @tornado.web.asynchronous
     def get(self):
-        pass
+        self.application.shopping_cart.register(self.async_callback(self.on_message))
+
+    def on_message(self, count):
+        self.write('{"inventory_count":"%d"}' % count)
+        self.finish()
 
 class Application(tornado.web.Application):
     def __init__(self):
